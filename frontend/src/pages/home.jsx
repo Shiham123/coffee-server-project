@@ -1,7 +1,10 @@
+import { useState } from 'react';
 import { Link, useLoaderData } from 'react-router-dom';
 
 const HomePage = () => {
   const loader = useLoaderData();
+
+  const [coffee, setCoffee] = useState(loader);
 
   const handleDelete = (id) => {
     const deleteId = window.confirm('Do you want to delete this item?');
@@ -9,7 +12,14 @@ const HomePage = () => {
       fetch(`http://localhost:3000/coffee/${id}`, {
         method: 'DELETE',
       })
-        .then((response) => response.json())
+        .then((response) => {
+          if (response.ok) {
+            setCoffee((prevCoffee) =>
+              prevCoffee.filter((item) => item._id !== id)
+            );
+          }
+          return response.json();
+        })
         .then((data) => console.log(data))
         .catch((error) => console.log(error));
     }
@@ -17,7 +27,7 @@ const HomePage = () => {
 
   return (
     <div>
-      {loader.map((item, index) => {
+      {coffee.map((item, index) => {
         const { coffeeName, coffeeQuantity, _id } = item;
         return (
           <div key={index}>
