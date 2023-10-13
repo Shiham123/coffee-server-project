@@ -23,7 +23,7 @@ const client = new MongoClient(uri, {
   },
 });
 
-async function run() {
+const run = async () => {
   try {
     await client.connect();
     await client.db('admin').command({ ping: 1 });
@@ -31,7 +31,8 @@ async function run() {
   } catch (error) {
     console.dir(error);
   }
-}
+};
+
 run();
 
 app.listen(port, () => {
