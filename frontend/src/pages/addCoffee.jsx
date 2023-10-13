@@ -6,8 +6,19 @@ const AddCoffee = () => {
     const coffeeQuantity = formData.get('coffeeQuantity');
 
     const coffeeData = { coffeeName, coffeeQuantity };
-    console.log(coffeeData);
+
+    fetch('http://localhost:3000/coffee', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(coffeeData),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.log(error));
   };
+
   return (
     <form onSubmit={handleSubmit}>
       <div>
