@@ -35,9 +35,35 @@ const run = async () => {
       response.send(result);
     });
 
+    app.get('/coffee/:id', async (request, response) => {
+      const id = request.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await CoffeeCollection.findOne(query);
+      response.send(result);
+    });
+
     app.post('/coffee', async (request, response) => {
       const newCoffee = request.body;
       const result = await CoffeeCollection.insertOne(newCoffee);
+      response.send(result);
+    });
+
+    app.put('/coffee/:id', async (request, response) => {
+      const id = request.params.id;
+      const filterId = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+
+      const coffee = {
+        $set: {
+          coffeeName: request.body.coffeeName,
+          coffeeQuantity: request.body.coffeeQuantity,
+        },
+      };
+      const result = await CoffeeCollection.updateOne(
+        filterId,
+        coffee,
+        options
+      );
       response.send(result);
     });
 

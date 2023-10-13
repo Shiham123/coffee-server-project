@@ -1,4 +1,4 @@
-import { useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 
 const HomePage = () => {
   const loader = useLoaderData();
@@ -26,6 +26,9 @@ const HomePage = () => {
             <button className="btn" onClick={() => handleDelete(_id)}>
               Delete Coffee
             </button>
+            <Link to={`/updateCoffee/${_id}`}>
+              <button className="btn">Edit Coffee</button>
+            </Link>
           </div>
         );
       })}
